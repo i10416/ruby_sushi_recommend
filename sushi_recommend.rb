@@ -12,8 +12,14 @@ def generate_preference_from(params) # params={"ika"=>1,"tako"=>3,...} length>=1
 end
 
 def exclude_some_not_having_similar_preferences(given_prf,preferences)
+	# 共通の評価が少なく他がすべて欠損値(-1)とき、
+	#それが一致すると相関係数が極端に高くなってしまうので、
+	# 欠損値以外で共通のものを評価している人を抽出する 
+
 	thresold = 3
 	comparable_prfs=[]
+	# 欠損値が-1なので、おなじindexの要素に１を足しをかけ合わせた結果が0にならないものが
+	# 一定数以上あれば、その２人は共通の寿司ネタを評価していると考えられる
 	preferences.each do |prf|
 		if (prf.zip(given_prf).
 			map{|p_v,g_v|(p_v+1.0)*(g_v+1.0)}-[0.0]).
