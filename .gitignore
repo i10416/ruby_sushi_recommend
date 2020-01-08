@@ -1,0 +1,5 @@
+data/
+/Gemfile.lock
+/.bundle/
+/tmp/
+/vendor/bundle
