@@ -2,10 +2,9 @@ require "sinatra"
 require "sinatra/reloader"
 require "sinatra/namespace"
 require "sinatra/json"
+require "rack/contrib" #to use "params"
 require "./lib/file_util.rb"
 require "./lib/array_util.rb"
-require "active_support"
-require "rack/contrib"
 require "./sushi_recommend.rb"
 use Rack::PostBodyContentTypeParser
 
@@ -14,7 +13,7 @@ namespace "/api" do
 		get "/" do
 				data ={
 					title: "Sushi Recommendation",
-					description: "機械学習を使って寿司をレコメンドするサービスです.",
+					description: "寿司をレコメンドするサービス",
 					charset:"utf-8",
 				}
 				json data

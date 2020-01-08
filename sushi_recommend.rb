@@ -1,5 +1,16 @@
 require "./lib/file_util.rb"
 require "./lib/array_util.rb"
+
+def generate_preference_from(params) # params={"ika"=>1,"tako"=>3,...} length>=10
+	preference_base = [-1]*100
+	name_idx_map = get_sushi_hash_from("./data/sushi_ids.txt")
+	hash = params.map{|k,v| k=name_idx_map[k],v=v}.to_h
+	hash.each do |k,v|
+		preference_base[k] = v
+	end
+	preference_base.map(&:to_f)
+end
+
 def exclude_some_not_having_similar_preferences(given_prf,preferences)
 	thresold = 3
 	comparable_prfs=[]
@@ -25,8 +36,6 @@ def get_similarities(given_prf,comparable_prfs)
 	similarities.sort{|l,r| r[1]<=>l[1]}
 end
 
-
-
 def ranking(gvn_pref,comparable_prfs,similarities)
 	ranking=[]
 	for item_idx in 0..99 do
@@ -40,16 +49,6 @@ def ranking(gvn_pref,comparable_prfs,similarities)
 	ranking.sort{|l,r| r[1]<=>l[1]}
 end
 				
-
-def generate_preference_from(params) # params={"ika"=>1,"tako"=>3,...} length>=10
-	preference_base = [-1]*100
-	name_idx_map = get_sushi_hash_from("./data/sushi_ids.txt")
-	hash = params.map{|k,v| k=name_idx_map[k],v=v}.to_h
-	hash.each do |k,v|
-		preference_base[k] = v
-	end
-	preference_base.map(&:to_f)
-end
 
 def get_ranking_by(preference)
 	the_other_preferences =  get_preferences_data_from("./data/sushi3b.5000.10.score")
